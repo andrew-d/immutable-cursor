@@ -1,0 +1,23 @@
+{
+  "name": "immutable-cursor",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/andrew-d/immutable-cursor.git"
+  },
+  "author": {
+      "name": "Andrew Dunham",
+      "email": "andrew@du.nham.ca",
+      "url": "https://github.com/andrew-d/"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/andrew-d/immutable-cursor/issues"
+  },
+  "homepage": "https://github.com/andrew-d/immutable-cursor"
+}
