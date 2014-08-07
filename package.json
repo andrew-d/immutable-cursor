@@ -11,13 +11,16 @@
     "url": "https://github.com/andrew-d/immutable-cursor.git"
   },
   "author": {
-      "name": "Andrew Dunham",
-      "email": "andrew@du.nham.ca",
-      "url": "https://github.com/andrew-d/"
+    "name": "Andrew Dunham",
+    "email": "andrew@du.nham.ca",
+    "url": "https://github.com/andrew-d/"
   },
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/andrew-d/immutable-cursor/issues"
   },
-  "homepage": "https://github.com/andrew-d/immutable-cursor"
+  "homepage": "https://github.com/andrew-d/immutable-cursor",
+  "dependencies": {
+    "immutable": "^2.0.4"
+  }
 }
