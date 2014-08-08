@@ -1,0 +1,27 @@
+{
+    "source": {
+        "include": "js"
+    },
+    "tags": {
+        "allowUnknownTags": false
+    },
+    "plugins": [],
+    "opts": {
+        "destination": "./_site/",
+        "recurse": true,
+        "template": "./node_modules/ink-docstrap/template"
+    },
+    "templates": {
+        "default": {
+            "outputSourceFiles": true
+        },
+        "systemName": "Immutable-Cursor",
+        "footer": "",
+        "copyright": "Immutable-Cursor Copyright © 2014 Andrew Dunham",
+        "navType": "vertical",
+        "theme": "cerulean",
+        "linenums": true,
+        "collapseSymbols": false,
+        "inverseNav": true
+    }
+}
