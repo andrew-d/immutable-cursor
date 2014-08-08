@@ -1,6 +1,24 @@
-var expect = require('chai').expect;
+var expect    = require('chai').expect,
+    Immutable = require('immutable');
 
-var create = require('../js/Cursor');
+var create = require('../js/create_cursor'),
+    Cursor = require('../js/Cursor');
+
+describe("create_cursor", function() {
+    var c;
+
+    beforeEach(function() {
+        c = create([1,2,3]);
+    });
+
+    it('will convert to an Immutable object upon creation', function() {
+        expect(c.object).to.be.instanceof(Immutable.Vector);
+    });
+
+    it('will return instances of Cursor', function() {
+        expect(c).to.be.instanceof(Cursor);
+    });
+});
 
 describe('Cursor', function() {
     it('will create a cursor from an object', function() {
@@ -52,15 +70,8 @@ describe('Cursor', function() {
 
         r1.setValue(456);
 
-        expect(c.value.toJS()).to.deep.equal({'a': {'b': 456}});
+        expect(c.object.toJS()).to.deep.equal({'a': {'b': 456}});
         expect(r1.value).to.equal(456);
-    });
-
-    it('will disallow updating anything except the root node', function() {
-        var c = create([1,2,3]);
-        var fn = function() { c.refine(0)._updateIn([], null); };
-
-        expect(fn).to.throw(/non-root Cursor/);
     });
 
     it('will allow modifying a value', function() {
@@ -68,22 +79,21 @@ describe('Cursor', function() {
             r = c.refine(0);
 
         expect(r.value).to.equal(1);
-        expect(c.value.toJS()).to.deep.equal([1,2,3]);
+        expect(c.object.toJS()).to.deep.equal([1,2,3]);
 
         r.modifyValue(function(val) {
             return val + 10;
         });
 
         expect(r.value).to.equal(11);
-        expect(c.value.toJS()).to.deep.equal([11,2,3]);
+        expect(c.object.toJS()).to.deep.equal([11,2,3]);
     });
 
     it('will track changes', function() {
         var c = create([1,2,3]),
             r = c.refine(0);
 
-        // TODO: figure out why this is failing
-        // expect(c.changed).to.equal(false);
+        expect(c.changed).to.equal(false);
         r.setValue(10);
         expect(c.changed).to.equal(true);
         c.flush();
