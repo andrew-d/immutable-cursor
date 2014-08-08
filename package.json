@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "mocha spec/**/*.js",
-    "watch": "mocha --watch spec/**/*.js",
-    "doc": "jsdoc -c jsdoc.conf.json"
+    "doc": "jsdoc -c jsdoc.conf.json",
+    "test": "mocha spec/*.js && jshint js/*.js",
+    "watch": "mocha --watch spec/*.js"
   },
   "repository": {
     "type": "git",

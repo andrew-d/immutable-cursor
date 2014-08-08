@@ -1,3 +1,5 @@
+/*jslint node: true */
+
 var Cursor    = require('./Cursor'),
     Immutable = require('immutable');
 
