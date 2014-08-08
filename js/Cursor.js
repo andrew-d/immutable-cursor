@@ -5,15 +5,6 @@ var EventEmitter = require('events').EventEmitter,
     nodeUtil     = require('util'),
     util         = require('./util');
 
-/* Unresolved questions:
- *  - How do we handle the various types of Immutable datatypes?
- *      - Do we want a different cursor type for each datatype?
- *  - How much caching should we have for the create() function?
- *  - There should be some way of 'batching' changes, so that we only
- *    update the underlying datastructure once
- *      - Perhaps, have a flush() method that we can call to do this?
- */
-
 var Cursor = function(root, path, rootCursor) {
     EventEmitter.call(this);
 
