@@ -5,10 +5,27 @@ var EventEmitter = require('events').EventEmitter,
     nodeUtil     = require('util'),
     Refinement   = require('./Refinement');
 
-
+/**
+ * Represents a cursor over an underlying object.
+ *
+ * @constructor
+ * @param {Object} object - The underlying object.
+ */
 var Cursor = function(object) {
     EventEmitter.call(this);
+
+    /**
+     * The underlying object of this cursor
+     *
+     * @public
+     */
     this.object = object;
+
+    /**
+     * Whether or not there are un-flushed changes to this cursor.
+     *
+     * @public
+     */
     this.changed = false;
 };
 
@@ -33,20 +50,33 @@ Cursor.prototype._valueAt = function(path) {
     return this.object.getIn(path);
 };
 
-// Return a sub-cursor from this cursor.
-Cursor.prototype.refine = function() {
+/**
+ * Return a refinement of this cursor for the given path.
+ *
+ * @param {...(String|Number)} path - The path to refine.
+ */
+Cursor.prototype.refine = function(path) {
     var args = Array.prototype.slice.call(arguments);
     return Refinement.call(null, this, args);
 };
 
-// If the cursor has changed, then trigger a change callback.
+/**
+ * If this cursor has changed, then emit the 'change' event and set the changed
+ * flag back to false.
+ */
 Cursor.prototype.flush = function() {
-    if( this.changed !== undefined && this.changed ) {
+    if( this.changed ) {
         this.emit('change');
         this.changed = false;
     }
 };
 
+/**
+ * Compares this cursor to another and returns whether the two are equal.
+ *
+ * @param {Cursor} other - The other cursor.
+ * @returns {Boolean}
+ */
 Cursor.prototype.equals = function(other) {
     return this.object === other.object;
 };
