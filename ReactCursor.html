@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>Immutable-Cursor Class: Refinement</title>
+	<title>Immutable-Cursor Class: ReactCursor</title>
 
 	<!--[if lt IE 9]>
 	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -56,12 +56,12 @@
 					
 
 
-	<h1 class="page-title">Class: Refinement</h1>
+	<h1 class="page-title">Class: ReactCursor</h1>
 <section>
 
 <header>
     <h2>
-    Refinement
+    ReactCursor
     </h2>
     
 </header>
@@ -73,7 +73,7 @@
     
         
 <dt>
-    <h4 class="name" id="Refinement"><span class="type-signature"></span>new Refinement<span class="signature">(cursor, path)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="ReactCursor"><span class="type-signature"></span>new ReactCursor<span class="signature">(object, component, <span class="optional">stateKey</span>)</span><span class="type-signature"></span></h4>
     
     
 </dt>
@@ -81,7 +81,8 @@
     
     
     <div class="description">
-        Represents a refinement of a given cursor.
+        A Cursor subclass that stores the underlying object in a React component's
+state.
     </div>
     
 
@@ -107,6 +108,8 @@
 		
 
 		
+		<th>Default</th>
+		
 
 		<th class="last">Description</th>
 	</tr>
@@ -117,13 +120,13 @@
 
         <tr>
             
-                <td class="name"><code>cursor</code></td>
+                <td class="name"><code>object</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type"><a href="Cursor.html">Cursor</a></span>
+<span class="param-type">Object</span>
 
 
             
@@ -140,24 +143,25 @@
             
 
             
+                <td class="default">
+                
+                </td>
+            
 
-            <td class="description last">The underlying cursor.</td>
+            <td class="description last">The underlying object.</td>
         </tr>
 
 	
 
         <tr>
             
-                <td class="name"><code>path</code></td>
+                <td class="name"><code>component</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">String</span>
-|
-
-<span class="param-type">Number</span>
+<span class="param-type">component</span>
 
 
             
@@ -170,14 +174,55 @@
                 
 
                 
-                    &lt;repeatable><br>
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">A React.js component instance.</td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>stateKey</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
                 
                 </td>
             
 
             
+                <td class="default">
+                
+                    cursor
+                
+                </td>
+            
 
-            <td class="description last">The path of this refinement.</td>
+            <td class="description last">The key to store in the component's state.</td>
         </tr>
 
 	
@@ -249,15 +294,15 @@
 
         <dl>
             
-<dt class="name" id="value">
-    <h4><span class="type-signature"></span>value<span class="type-signature"></span></h4>
+<dt class="name" id="component">
+    <h4><span class="type-signature"></span>component<span class="type-signature"></span></h4>
 
     
 </dt>
 <dd>
     
     <div class="description">
-        The underlying value for this refinement.
+        The component this cursor is associated with.
     </div>
     
 
@@ -307,7 +352,7 @@
         <dl>
             
 <dt>
-    <h4 class="name" id="equals"><span class="type-signature"></span>equals<span class="signature">(other)</span><span class="type-signature"> &rarr; {Boolean}</span></h4>
+    <h4 class="name" id="build"><span class="type-signature">&lt;static> </span>build<span class="signature">(object, component, <span class="optional">stateKey</span>)</span><span class="type-signature"> &rarr; {<a href="ReactCursor.html">ReactCursor</a>}</span></h4>
     
     
 </dt>
@@ -315,258 +360,8 @@
     
     
     <div class="description">
-        Compares this refinement to another and returns whether the two are equal.
-    </div>
-    
-
-    
-    
-    
-    
-    
-        <h5>Parameters:</h5>
-        
-
-<table class="params table table-striped">
-    <thead>
-	<tr>
-		
-		<th>Name</th>
-		
-
-		<th>Type</th>
-
-		
-
-		
-
-		<th class="last">Description</th>
-	</tr>
-	</thead>
-
-	<tbody>
-	
-
-        <tr>
-            
-                <td class="name"><code>other</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="Refinement.html">Refinement</a></span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">The other refinement.</td>
-        </tr>
-
-	
-	</tbody>
-</table>
-
-    
-    
-    
-<dl class="details">
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-
-
-
-	
-
-	
-
-	
-
-	
-</dl>
-
-    
-    
-
-    
-
-    
-    
-    
-    
-    
-    <h5>Returns:</h5>
-    
-            
-
-
-<dl>
-	<dt>
-		Type
-	</dt>
-	<dd>
-		
-<span class="param-type">Boolean</span>
-
-
-	</dd>
-</dl>
-
-
-        
-    
-    
-</dd>
-
-        
-            
-<dt>
-    <h4 class="name" id="modifyValue"><span class="type-signature"></span>modifyValue<span class="signature">(cb)</span><span class="type-signature"></span></h4>
-    
-    
-</dt>
-<dd>
-    
-    
-    <div class="description">
-        Modify the underlying value of this refinement via a callback.
-    </div>
-    
-
-    
-    
-    
-    
-    
-        <h5>Parameters:</h5>
-        
-
-<table class="params table table-striped">
-    <thead>
-	<tr>
-		
-		<th>Name</th>
-		
-
-		<th>Type</th>
-
-		
-
-		
-
-		<th class="last">Description</th>
-	</tr>
-	</thead>
-
-	<tbody>
-	
-
-        <tr>
-            
-                <td class="name"><code>cb</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="global.html#modifyCb">modifyCb</a></span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">The callback used to modify.  Will only be called
-                       once per invocation of modifyValue.</td>
-        </tr>
-
-	
-	</tbody>
-</table>
-
-    
-    
-    
-<dl class="details">
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-
-
-
-	
-
-	
-
-	
-
-	
-</dl>
-
-    
-    
-
-    
-
-    
-    
-    
-    
-    
-    
-    
-</dd>
-
-        
-            
-<dt>
-    <h4 class="name" id="refine"><span class="type-signature"></span>refine<span class="signature">(path)</span><span class="type-signature"> &rarr; {<a href="Refinement.html">Refinement</a>}</span></h4>
-    
-    
-</dt>
-<dd>
-    
-    
-    <div class="description">
-        Return another Refinement instance, with a path starting from this
-refinement.
+        Create a ReactCursor instance, converting the given object to an immutable
+one.
     </div>
     
 
@@ -592,6 +387,8 @@ refinement.
 		
 
 		
+		<th>Default</th>
+		
 
 		<th class="last">Description</th>
 	</tr>
@@ -602,16 +399,13 @@ refinement.
 
         <tr>
             
-                <td class="name"><code>path</code></td>
+                <td class="name"><code>object</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">String</span>
-|
-
-<span class="param-type">Number</span>
+<span class="param-type">Object</span>
 
 
             
@@ -624,14 +418,90 @@ refinement.
                 
 
                 
-                    &lt;repeatable><br>
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">The underlying object.</td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>component</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">component</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
                 
                 </td>
             
 
             
+                <td class="default">
+                
+                </td>
+            
 
-            <td class="description last">The path to refine.</td>
+            <td class="description last">A React.js component instance.</td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>stateKey</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    cursor
+                
+                </td>
+            
+
+            <td class="description last">The key to store in the component's state.</td>
         </tr>
 
 	
@@ -692,7 +562,7 @@ refinement.
 	</dt>
 	<dd>
 		
-<span class="param-type"><a href="Refinement.html">Refinement</a></span>
+<span class="param-type"><a href="ReactCursor.html">ReactCursor</a></span>
 
 
 	</dd>
@@ -700,121 +570,6 @@ refinement.
 
 
         
-    
-    
-</dd>
-
-        
-            
-<dt>
-    <h4 class="name" id="setValue"><span class="type-signature"></span>setValue<span class="signature">(newValue)</span><span class="type-signature"></span></h4>
-    
-    
-</dt>
-<dd>
-    
-    
-    <div class="description">
-        Set the underlying value of this refinement.
-    </div>
-    
-
-    
-    
-    
-    
-    
-        <h5>Parameters:</h5>
-        
-
-<table class="params table table-striped">
-    <thead>
-	<tr>
-		
-		<th>Name</th>
-		
-
-		<th>Type</th>
-
-		
-
-		
-
-		<th class="last">Description</th>
-	</tr>
-	</thead>
-
-	<tbody>
-	
-
-        <tr>
-            
-                <td class="name"><code>newValue</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">*</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">The new value to set.</td>
-        </tr>
-
-	
-	</tbody>
-</table>
-
-    
-    
-    
-<dl class="details">
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-
-
-
-	
-
-	
-
-	
-
-	
-</dl>
-
-    
-    
-
-    
-
-    
-    
-    
-    
-    
     
     
 </dd>
