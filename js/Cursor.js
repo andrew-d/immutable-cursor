@@ -5,6 +5,14 @@ var EventEmitter = require('events').EventEmitter,
     nodeUtil     = require('util'),
     util         = require('./util');
 
+/* TODO:
+ *  - Split Cursor from Refinement
+ *    - A cursor "owns" the datastructure
+ *    - A refinement is a view into a datastructure
+ *    - You can attach a listener to the Cursor to get notified when
+ *      things have changed
+ */
+
 var Cursor = function(root, path, rootCursor) {
     EventEmitter.call(this);
 
