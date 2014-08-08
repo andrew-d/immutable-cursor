@@ -4,7 +4,7 @@
 
 var EventEmitter = require('events').EventEmitter,
     Immutable    = require('immutable'),
-    nodeUtil     = require('util'),
+    util         = require('util'),
     Refinement   = require('./Refinement');
 
 /**
@@ -21,7 +21,8 @@ var Cursor = function(object) {
      *
      * @public
      */
-    this.object = object;
+    this.object = undefined;
+    this._setObject(object);
 
     /**
      * Whether or not there are un-flushed changes to this cursor.
@@ -31,7 +32,15 @@ var Cursor = function(object) {
     this.changed = false;
 };
 
-nodeUtil.inherits(Cursor, EventEmitter);
+util.inherits(Cursor, EventEmitter);
+
+Cursor.prototype._setObject = function(newObject) {
+    this.object = newObject;
+};
+
+Cursor.prototype._getObject = function() {
+    return this.object;
+};
 
 Cursor.prototype._updateIn = function(path, cb) {
     // We only want to call the underlying callback once, so we store the
@@ -42,14 +51,14 @@ Cursor.prototype._updateIn = function(path, cb) {
         return newValue;
     };
 
-    this.object = this.object.updateIn(path, wrapperCb);
+    this._setObject(this._getObject().updateIn(path, wrapperCb));
     this.changed = true;
 
     return newValue;
 };
 
 Cursor.prototype._valueAt = function(path) {
-    return this.object.getIn(path);
+    return this._getObject().getIn(path);
 };
 
 /**
@@ -80,7 +89,20 @@ Cursor.prototype.flush = function() {
  * @returns {Boolean}
  */
 Cursor.prototype.equals = function(other) {
-    return this.object === other.object;
+    return this._getObject() === other._getObject();
 };
+
+
+/**
+ * Create a Cursor instance, converting the given object to an immutable one.
+ *
+ * @static
+ * @param {...*} objects - One or more objects to create the Cursor from.
+ * @returns {Cursor}
+ */
+Cursor.build = function(objects) {
+    return new Cursor(Immutable.fromJS.apply(Immutable, arguments));
+};
+
 
 module.exports = Cursor;

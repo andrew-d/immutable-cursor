@@ -47,7 +47,7 @@ var Refinement = function(cursor, path) {
          *
          * @public
          */
-        this.value  = cursor._valueAt(path);
+        this.value = cursor._valueAt(path);
 
         if( this.value === undefined ) {
             throw new Error("Invalid path through object: " + path);

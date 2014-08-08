@@ -3,33 +3,34 @@
 var expect    = require('chai').expect,
     Immutable = require('immutable');
 
-var create = require('../js/create_cursor'),
-    Cursor = require('../js/Cursor');
+var Cursor = require('../js/Cursor'),
+    build  = Cursor.build;
 
-describe("create_cursor", function() {
-    var c;
-
-    beforeEach(function() {
-        c = create([1,2,3]);
-    });
-
-    it('will convert to an Immutable object upon creation', function() {
-        expect(c.object).to.be.instanceof(Immutable.Vector);
-    });
-
-    it('will return instances of Cursor', function() {
-        expect(c).to.be.instanceof(Cursor);
-    });
-});
 
 describe('Cursor', function() {
-    it('will create a cursor from an object', function() {
-        create([1,2,3]);
-        create({'a': 1, 'b': 2});
+    describe('.build', function() {
+        var c;
+
+        beforeEach(function() {
+            c = build([1,2,3]);
+        });
+
+        it('will create a cursor from maps and vectors', function() {
+            build([1,2,3]);
+            build({'a': 1, 'b': 2});
+        });
+
+        it('will convert to an Immutable object upon creation', function() {
+            expect(c.object).to.be.instanceof(Immutable.Vector);
+        });
+
+        it('will return instances of Cursor', function() {
+            expect(c).to.be.instanceof(Cursor);
+        });
     });
 
     it('allow refining a nested cursor', function() {
-        var c = create({'a': {'b': 123}});
+        var c = build({'a': {'b': 123}});
 
         var r1 = c.refine('a'),
             r2 = r1.refine('b');
@@ -39,7 +40,7 @@ describe('Cursor', function() {
     });
 
     it('will allow refining a nested vector', function() {
-        var c = create({'a': ['b', 'c', {'d': 123}]});
+        var c = build({'a': ['b', 'c', {'d': 123}]});
 
         var r1 = c.refine('a'),
             r2 = r1.refine(2),
@@ -51,7 +52,7 @@ describe('Cursor', function() {
     });
 
     it('will allow refining multiple items in a single call', function() {
-        var c = create({'a': ['b', 'c', {'d': 123}]});
+        var c = build({'a': ['b', 'c', {'d': 123}]});
 
         var r = c.refine('a', 2, 'd');
 
@@ -59,7 +60,7 @@ describe('Cursor', function() {
     });
 
     it('will throw if an invalid path is given', function() {
-        var c = create({'a': {'b': {'c': 123}}});
+        var c = build({'a': {'b': {'c': 123}}});
 
         var fn = function() { c.refine('a', 'b', 'qqq'); };
 
@@ -67,7 +68,7 @@ describe('Cursor', function() {
     });
 
     it('will allow changing a nested value', function() {
-        var c = create({'a': {'b': 123}}),
+        var c = build({'a': {'b': 123}}),
             r1 = c.refine('a', 'b');
 
         r1.setValue(456);
@@ -77,7 +78,7 @@ describe('Cursor', function() {
     });
 
     it('will allow modifying a value', function() {
-        var c = create([1,2,3]),
+        var c = build([1,2,3]),
             r = c.refine(0);
 
         expect(r.value).to.equal(1);
@@ -92,7 +93,7 @@ describe('Cursor', function() {
     });
 
     it('will track changes', function() {
-        var c = create([1,2,3]),
+        var c = build([1,2,3]),
             r = c.refine(0);
 
         expect(c.changed).to.equal(false);
@@ -103,7 +104,7 @@ describe('Cursor', function() {
     });
 
     it('will flush changes after modification', function() {
-        var c = create([1,2,3]),
+        var c = build([1,2,3]),
             r = c.refine(0),
             changed = false;
 
