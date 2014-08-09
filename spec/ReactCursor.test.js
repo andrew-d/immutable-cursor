@@ -24,8 +24,16 @@ var cleanDOM = function() {
 
 
 describe('ReactCursor', function() {
+    var testObj;
+
     beforeEach(function() {
         initDOM();
+
+        testObj = {
+            a: {
+                nested: 'value 123',
+            },
+        };
     });
 
     afterEach(function() {
@@ -41,12 +49,7 @@ describe('ReactCursor', function() {
         },
 
         componentWillMount: function() {
-            var obj = {
-                a: {
-                    nested: 'value 123',
-                },
-            };
-            this.cursor = ReactCursor.build(obj, this, 'cursor');
+            this.cursor = ReactCursor.build(this.props.obj, this, 'cursor');
         },
 
         render: function() {
@@ -60,7 +63,7 @@ describe('ReactCursor', function() {
 
     it('will store state in the React component', function() {
         var rendered = TestUtils.renderIntoDocument(
-            new TestComponent(null)
+            new TestComponent({obj: testObj})
         );
 
         var component = TestUtils.findRenderedComponentWithType(
@@ -73,7 +76,9 @@ describe('ReactCursor', function() {
 
 
     it('will properly render values', function() {
-        var str = React.renderComponentToString(new TestComponent(null));
+        var str = React.renderComponentToString(
+            new TestComponent({obj: testObj})
+        );
         expect(str).to.match(/ref\: value 123/);
     });
 });
