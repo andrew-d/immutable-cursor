@@ -12,6 +12,7 @@ var Cursor    = require('./Cursor'),
  * state.
  *
  * @constructor
+ * @extends Cursor
  * @param {Object} object - The underlying object.
  * @param {component} component - A React.js component instance.
  * @param {String} [stateKey=cursor] - The key to store in the component's state.

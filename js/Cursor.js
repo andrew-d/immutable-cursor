@@ -11,7 +11,6 @@ var EventEmitter = require('events').EventEmitter,
  * Represents a cursor over an underlying object.
  *
  * @constructor
- * @extends Cursor
  * @param {Object} object - The underlying object.
  */
 var Cursor = function(object) {
