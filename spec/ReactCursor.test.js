@@ -7,37 +7,15 @@ var expect    = require('chai').expect,
 var ReactCursor = require('../js/ReactCursor');
 
 
-var initDOM = function() {
-    var jsdom = require('jsdom').jsdom;
-
-    global.window = jsdom().createWindow("<html><body></body></html>");
-    global.document = global.window.document;
-    global.navigator = global.window.navigator;
-};
-
-
-var cleanDOM = function() {
-    delete global.window;
-    delete global.document;
-    delete global.navigator;
-};
-
-
 describe('ReactCursor', function() {
     var testObj;
 
     beforeEach(function() {
-        initDOM();
-
         testObj = {
             a: {
                 nested: 'value 123',
             },
         };
-    });
-
-    afterEach(function() {
-        cleanDOM();
     });
 
     var TestComponent = React.createClass({

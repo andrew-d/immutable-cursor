@@ -9,38 +9,14 @@ var ReactCursor          = require('../js/ReactCursor'),
     ReactRefinementMixin = require('../js/ReactRefinementMixin');
 
 
-var initDOM = function() {
-    var jsdom = require('jsdom').jsdom;
-
-    global.window = jsdom().createWindow("<html><body></body></html>");
-    global.document = global.window.document;
-    global.navigator = global.window.navigator;
-};
-
-
-var cleanDOM = function() {
-    delete global.window;
-    delete global.document;
-    delete global.navigator;
-};
-
-
 describe('ReactRefinementMixin', function() {
-    beforeEach(function() {
-        initDOM();
-    });
-
-    afterEach(function() {
-        cleanDOM();
-    });
-
     it('will throw if no property names are given', function() {
         var fn = function() { ReactRefinementMixin(); };
 
         expect(fn).to.throw(/no property names given/i);
     });
 
-    it.skip('will prevent updating when using the same refinement', function() {
+    it('will prevent updating when using the same refinement', function() {
         var renderCounts = {};
 
         var Root = React.createClass({
@@ -95,8 +71,6 @@ describe('ReactRefinementMixin', function() {
         expect(renderCounts['i13']).to.equal(1);
 
         // Modify a single thing in the tree.
-        // TODO: this gives "Invariant Violation: Cannot render markup in a Worker thread."
-        //       Should try running in a browser and see if this fixes things...
         components[0].props.cursor.modifyValue(function(v) {
             return v + 1;
         });
