@@ -14,17 +14,17 @@
  * @returns {Object}
  */
 var ReactRefinementMixin = function(refProps) {
-    var refProps = Array.prototype.slice.call(arguments);
+    var args = Array.prototype.slice.call(arguments);
 
-    if( refProps.length === 0 ) {
+    if( args.length === 0 ) {
         throw new Error("No property names given");
     }
 
     return {
         shouldComponentUpdate: function(nextProps, nextState) {
             // For each of the given properties, we loop through and compare them.
-            for( var i = 0; i < refProps.length; i++ ) {
-                var propName = refProps[i],
+            for( var i = 0; i < args.length; i++ ) {
+                var propName = args[i],
                     oldProp = this.props[propName],
                     newProp = nextProps[propName];
 
