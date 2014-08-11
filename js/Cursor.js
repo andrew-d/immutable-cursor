@@ -67,8 +67,8 @@ Cursor.prototype._valueAt = function(path) {
  * @param {...(String|Number)} path - The path to refine.
  */
 Cursor.prototype.refine = function(path) {
-    var args = Array.prototype.slice.call(arguments);
-    return Refinement.call(null, this, args);
+    var args = Array.prototype.slice.call(arguments, 0);
+    return Refinement.call(null, this, null, args);
 };
 
 /**
