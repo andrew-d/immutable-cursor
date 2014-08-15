@@ -34,27 +34,42 @@ var arraysEqual = function(a, b) {
  * @param {Cursor} cursor - The underlying cursor.
  * @param {...(String|Number)} path - The path of this refinement.
  */
-var Refinement = function(cursor, parent, path) {
+var Refinement = function(cursor, path) {
     // This pattern allows us to call `new Refinement(...)` or the regular
     // `Refinement(...)` - this is useful since we can't use .apply() with
     // the `new` operator.
     if( this instanceof Refinement ) {
+        if( path.length === 0 ) {
+            throw new Error("Path is too short: " + path);
+        }
+
         this.cursor = cursor;
-        this.parent = parent;
         this.path   = path;
+
+        // We store the 'object' that this refinement refers to - i.e. the
+        // collection in which the final segment of the path can be found.
+        var objPath  = path.slice(0, -1),
+            finalKey = path[path.length-1],
+            object   = cursor._getObject();
+
+        if( objPath.length > 0 ) {
+            object = object.getIn(objPath);
+            console.log("" + this.path + ": object = " + object);
+        }
+        this.object = object;
 
         /**
          * The underlying value for this refinement.
          *
          * @public
          */
-        this.value = cursor._valueAt(path);
+        this.value = this.object.get(finalKey);
 
         if( this.value === undefined ) {
             throw new Error("Invalid path through object: " + path);
         }
     } else {
-        return new Refinement(cursor, parent, path);
+        return new Refinement(cursor, path);
     }
 };
 
@@ -69,7 +84,7 @@ var Refinement = function(cursor, parent, path) {
 Refinement.prototype.refine = function(path) {
     var args    = Array.prototype.slice.call(arguments),
         newPath = this.path.concat(args);
-    return new Refinement(this.cursor, this, newPath);
+    return new Refinement(this.cursor, newPath);
 };
 
 /**
@@ -99,30 +114,31 @@ Refinement.prototype.modifyValue = function(cb) {
  * @returns {Boolean}
  */
 Refinement.prototype.equals = function(other) {
-    // Two refinements are equal if they have the same path through the same
-    // root object for the same overall cursor.  We can't compare just the
-    // paths, and the root object will change with every modification.
-    // However, since intermediate objects are immutable, we can compare those.
+    // Two refinements are equal if they have the same path from the same root
+    // cursor, and refer to the same collection.  E.g. if two refinements both
+    // have the same path ['a', 'b', 'c'] from the same root cursor, and the
+    // object at this path is the same, then they are equal.
 
     // Check if these are for the same cursor first.
     if( this.cursor !== other.cursor ) {
+        console.log("" + this.path + ": cursors are not equal");
+        return false;
+    }
+
+    // Compare the two objects.
+    if( this.object !== other.object ) {
+        console.log("" + this.path + ": objects are not equal");
         return false;
     }
 
     // Compare the two paths.
     if( !arraysEqual(this.path, other.path) ) {
+        console.log("" + this.path + ": paths are not equal");
         return false;
     }
 
-    // Even if the paths are the same, a modification may have happened, and
-    // the two cursors refer to an older version of the same path.  We now walk
-    // the object tree looking to see if each of the intervening objects in the
-    // path are the same.  Note that even if the root objects differ, it
-    // doesn't mean that the refinements are different, since it's possible
-    // that a different subtree of the root was modified.
-
-    // TODO: implement me!
-    return false;
+    console.log("" + this.path + ": EQUAL");
+    return true;
 };
 
 module.exports = Refinement;

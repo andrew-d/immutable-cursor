@@ -57,10 +57,6 @@ Cursor.prototype._updateIn = function(path, cb) {
     return newValue;
 };
 
-Cursor.prototype._valueAt = function(path) {
-    return this._getObject().getIn(path);
-};
-
 /**
  * Return a refinement of this cursor for the given path.
  *
@@ -68,7 +64,7 @@ Cursor.prototype._valueAt = function(path) {
  */
 Cursor.prototype.refine = function(path) {
     var args = Array.prototype.slice.call(arguments, 0);
-    return Refinement.call(null, this, null, args);
+    return Refinement.call(null, this, args);
 };
 
 /**

@@ -16,7 +16,7 @@ describe('ReactRefinementMixin', function() {
         expect(fn).to.throw(/no property names given/i);
     });
 
-    it.skip('will prevent updating when using the same refinement', function() {
+    it('will prevent updating when using the same refinement', function() {
         var renderCounts = {};
 
         var Root = React.createClass({
@@ -27,9 +27,12 @@ describe('ReactRefinementMixin', function() {
             render: function() {
                 var itemComponents = [];
 
-                for( var i = 0; i < this.state.cursor.length; i++ ) {
-                    var r = this.cursor.refine(i),
+                var valuesCursor = this.cursor.refine('values');
+
+                for( var i = 0; i < valuesCursor.value.length; i++ ) {
+                    var r = valuesCursor.refine(i),
                         c = new Item({cursor: r, key: i});
+
                     itemComponents.push(c);
                 }
 
@@ -54,7 +57,10 @@ describe('ReactRefinementMixin', function() {
 
         // -----
 
-        var items = [10, 11, 12, 13];
+        // TODO: the reason this test fails is because we can only compare
+        //       individual collections for equality.  should split this into
+        //       multiple sub-collections or something
+        var items = {values: [10, 11, 12, 13]};
 
         var rendered = TestUtils.renderIntoDocument(
             new Root({items: items})
