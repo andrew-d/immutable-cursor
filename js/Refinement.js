@@ -54,8 +54,11 @@ var Refinement = function(cursor, path) {
 
         if( objPath.length > 0 ) {
             object = object.getIn(objPath);
-            console.log("" + this.path + ": object = " + object);
         }
+        if( object === undefined ) {
+            throw new Error("Invalid path through object: " + path);
+        }
+
         this.object = object;
 
         /**
@@ -121,23 +124,19 @@ Refinement.prototype.equals = function(other) {
 
     // Check if these are for the same cursor first.
     if( this.cursor !== other.cursor ) {
-        console.log("" + this.path + ": cursors are not equal");
         return false;
     }
 
     // Compare the two objects.
     if( this.object !== other.object ) {
-        console.log("" + this.path + ": objects are not equal");
         return false;
     }
 
     // Compare the two paths.
     if( !arraysEqual(this.path, other.path) ) {
-        console.log("" + this.path + ": paths are not equal");
         return false;
     }
 
-    console.log("" + this.path + ": EQUAL");
     return true;
 };
 

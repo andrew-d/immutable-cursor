@@ -27,10 +27,8 @@ describe('ReactRefinementMixin', function() {
             render: function() {
                 var itemComponents = [];
 
-                var valuesCursor = this.cursor.refine('values');
-
-                for( var i = 0; i < valuesCursor.value.length; i++ ) {
-                    var r = valuesCursor.refine(i),
+                for( var i = 0; i < this.state.cursor.length; i++ ) {
+                    var r = this.cursor.refine(i, 'id'),
                         c = new Item({cursor: r, key: i});
 
                     itemComponents.push(c);
@@ -44,23 +42,32 @@ describe('ReactRefinementMixin', function() {
             mixins: [ReactRefinementMixin("cursor")],
 
             render: function() {
-                var key = 'i' + this.props.cursor.value;
+                var id = this.props.cursor.value;
 
-                if( renderCounts[key] === undefined ) renderCounts[key] = 0;
-                renderCounts[key]++;
+                if( renderCounts['i' + id] === undefined ) renderCounts['i' + id] = 0;
+                renderCounts['i' + id]++;
 
                 return new React.DOM.div({
                     'className': 'item',
-                }, "Item " + this.props.cursor.value);
+                }, "Item " + id);
             },
         });
 
         // -----
 
-        // TODO: the reason this test fails is because we can only compare
-        //       individual collections for equality.  should split this into
-        //       multiple sub-collections or something
-        var items = {values: [10, 11, 12, 13]};
+        // Note: we can only check for equality at the object level.  In this
+        //       case, if we were to modify an item in the top-level array,
+        //       then the entire array would appear to have "changed", and thus
+        //       we would need to re-render it.  So, instead, we create sub-
+        //       objects, which can each be modified without influencing the
+        //       others.
+        // TODO: mention this in the docs
+        var items = [
+            {id: 1},
+            {id: 2},
+            {id: 3},
+            {id: 4},
+        ];
 
         var rendered = TestUtils.renderIntoDocument(
             new Root({items: items})
@@ -74,10 +81,10 @@ describe('ReactRefinementMixin', function() {
         // Assert that we have 4 components, and that we've rendered each of
         // them once.
         expect(components.length).to.equal(4);
-        expect(renderCounts['i10']).to.equal(1);
-        expect(renderCounts['i11']).to.equal(1);
-        expect(renderCounts['i12']).to.equal(1);
-        expect(renderCounts['i13']).to.equal(1);
+        expect(renderCounts['i1']).to.equal(1);
+        expect(renderCounts['i2']).to.equal(1);
+        expect(renderCounts['i3']).to.equal(1);
+        expect(renderCounts['i4']).to.equal(1);
 
         // Modify a single thing in the tree.
         var cur = components[0].props.cursor;
@@ -93,12 +100,11 @@ describe('ReactRefinementMixin', function() {
         expect(renderCounts['i20']).to.equal(1);
         */
 
-        console.log(renderCounts);
-        expect(renderCounts['i10']).to.equal(1);
+        expect(renderCounts['i1']).to.equal(1);
+        expect(renderCounts['i2']).to.equal(1);
+        expect(renderCounts['i3']).to.equal(1);
+        expect(renderCounts['i4']).to.equal(1);
         expect(renderCounts['i11']).to.equal(1);
-        expect(renderCounts['i12']).to.equal(1);
-        expect(renderCounts['i13']).to.equal(1);
-        expect(renderCounts['i20']).to.equal(1);
     });
 
     it('will allow updating for two different refinements');
